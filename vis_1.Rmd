@@ -7,6 +7,7 @@ output: github_document
 
 ```{r}
 library(tidyverse)
+library(ggridges)
 ```
 
 Import the weather data
@@ -127,5 +128,128 @@ weather_df |>
     geom_smooth(method = "lm", se = FALSE)
 ```
 
+
+## Small things
+
+```{r}
+weather_df |> 
+  ggplot(aes(x = tmin, y = tmax)) +
+  geom_smooth(se = FALSE)
+```
+
+```{r}
+weather_df |> 
+  ggplot(aes(x = tmin, y = tmax)) +
+  geom_hex()
+### density plot
+```
+
+```{r}
+weather_df |> 
+  ggplot(aes(x = tmin, y = tmax)) +
+  geom_point(color = "blue")
+```
+
+
+## Univariate plots
+
+```{r}
+weather_df |> 
+  ggplot(aes(x = tmin, fill = name)) +
+  geom_histogram(position = "dodge")
+```
+
+How would i fix this? maybe facet?
+
+```{r}
+weather_df |> 
+  ggplot(aes( x = tmin, fill = name)) +
+  geom_histogram() +
+  facet_grid(. ~ name)
+```
+
+
+maybe a density plot?
+
+```{r}
+weather_df |> 
+  ggplot(aes( x = tmin, fill = name)) +
+  geom_density(alpha = .3)
+
+## alphs is the transparent level
+```
+
+```{r}
+weather_df |> 
+  ggplot(aes( x = name, y = tmin)) +
+  geom_boxplot()
+```
+
+
+violin plots
+
+```{r}
+weather_df |> 
+  ggplot(aes(x = name, y = tmin, fill = name)) +
+  geom_violin()
+```
+
+
+ridge plot
+
+```{r}
+weather_df |> 
+  ggplot(aes(x = tmin, y = name)) +
+  geom_density_ridges()
+```
+
+## Learning Assessment -- univariate plots
+
+```{r}
+weather_df |> 
+  ggplot(aes(x = prcp, fill = name)) +
+  geom_density(alpha = .3)
+```
+
+
+```{r}
+weather_df |> 
+  ggplot(aes(x = name, y = prcp)) +
+  geom_boxplot()
+```
+
+
+```{r}
+weather_df |> 
+  filter(prcp > 10, prcp < 1000) |> 
+  ggplot(aes(x = prcp, fill = name)) +
+  geom_density(alpha = .3)
+```
+
+
+
+
+## Saving and embedding plots
+
+saving plots
+
+```{r}
+ggp_weather =
+  weather_df |> 
+  ggplot(aes(x = date, y = tmax, color = name)) +
+  geom_point()
+
+ggsave("plots/ggp_weather.pdf", ggp_weather, width = 8, height = 6)
+```
+
+
+embedding plots
+
+```{r, fig.width = 12, fig.asp = .6}
+  weather_df |> 
+  ggplot(aes(x = date, y = tmax, color = name)) +
+  geom_point()
+
+```
 
 

@@ -18,6 +18,10 @@ library(tidyverse)
     ## ✖ dplyr::lag()    masks stats::lag()
     ## ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
 
+``` r
+library(ggridges)
+```
+
 Import the weather data
 
 ``` r
@@ -244,3 +248,178 @@ weather_df |>
     ## `geom_smooth()` using formula = 'y ~ x'
 
 ![](vis_1_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
+
+## Small things
+
+``` r
+weather_df |> 
+  ggplot(aes(x = tmin, y = tmax)) +
+  geom_smooth(se = FALSE)
+```
+
+    ## `geom_smooth()` using method = 'gam' and formula = 'y ~ s(x, bs = "cs")'
+
+    ## Warning: Removed 17 rows containing non-finite outside the scale range
+    ## (`stat_smooth()`).
+
+![](vis_1_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
+
+``` r
+weather_df |> 
+  ggplot(aes(x = tmin, y = tmax)) +
+  geom_hex()
+```
+
+    ## Warning: Removed 17 rows containing non-finite outside the scale range
+    ## (`stat_binhex()`).
+
+![](vis_1_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->
+
+``` r
+### density plot
+```
+
+``` r
+weather_df |> 
+  ggplot(aes(x = tmin, y = tmax)) +
+  geom_point(color = "blue")
+```
+
+    ## Warning: Removed 17 rows containing missing values or values outside the scale range
+    ## (`geom_point()`).
+
+![](vis_1_files/figure-gfm/unnamed-chunk-14-1.png)<!-- -->
+
+## Univariate plots
+
+``` r
+weather_df |> 
+  ggplot(aes(x = tmin, fill = name)) +
+  geom_histogram(position = "dodge")
+```
+
+    ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+
+    ## Warning: Removed 17 rows containing non-finite outside the scale range
+    ## (`stat_bin()`).
+
+![](vis_1_files/figure-gfm/unnamed-chunk-15-1.png)<!-- -->
+
+How would i fix this? maybe facet?
+
+``` r
+weather_df |> 
+  ggplot(aes( x = tmin, fill = name)) +
+  geom_histogram() +
+  facet_grid(. ~ name)
+```
+
+    ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+
+    ## Warning: Removed 17 rows containing non-finite outside the scale range
+    ## (`stat_bin()`).
+
+![](vis_1_files/figure-gfm/unnamed-chunk-16-1.png)<!-- -->
+
+maybe a density plot?
+
+``` r
+weather_df |> 
+  ggplot(aes( x = tmin, fill = name)) +
+  geom_density(alpha = .3)
+```
+
+    ## Warning: Removed 17 rows containing non-finite outside the scale range
+    ## (`stat_density()`).
+
+![](vis_1_files/figure-gfm/unnamed-chunk-17-1.png)<!-- -->
+
+``` r
+## alphs is the transparent level
+```
+
+``` r
+weather_df |> 
+  ggplot(aes( x = name, y = tmin)) +
+  geom_boxplot()
+```
+
+    ## Warning: Removed 17 rows containing non-finite outside the scale range
+    ## (`stat_boxplot()`).
+
+![](vis_1_files/figure-gfm/unnamed-chunk-18-1.png)<!-- -->
+
+violin plots
+
+``` r
+weather_df |> 
+  ggplot(aes(x = name, y = tmin, fill = name)) +
+  geom_violin()
+```
+
+    ## Warning: Removed 17 rows containing non-finite outside the scale range
+    ## (`stat_ydensity()`).
+
+![](vis_1_files/figure-gfm/unnamed-chunk-19-1.png)<!-- -->
+
+ridge plot
+
+``` r
+weather_df |> 
+  ggplot(aes(x = tmin, y = name)) +
+  geom_density_ridges()
+```
+
+    ## Picking joint bandwidth of 1.41
+
+    ## Warning: Removed 17 rows containing non-finite outside the scale range
+    ## (`stat_density_ridges()`).
+
+![](vis_1_files/figure-gfm/unnamed-chunk-20-1.png)<!-- -->
+
+## Learning Assessment – univariate plots
+
+``` r
+weather_df |> 
+  ggplot(aes(x = prcp, fill = name)) +
+  geom_density(alpha = .3)
+```
+
+    ## Warning: Removed 15 rows containing non-finite outside the scale range
+    ## (`stat_density()`).
+
+![](vis_1_files/figure-gfm/unnamed-chunk-21-1.png)<!-- -->
+
+``` r
+weather_df |> 
+  ggplot(aes(x = name, y = prcp)) +
+  geom_boxplot()
+```
+
+    ## Warning: Removed 15 rows containing non-finite outside the scale range
+    ## (`stat_boxplot()`).
+
+![](vis_1_files/figure-gfm/unnamed-chunk-22-1.png)<!-- -->
+
+``` r
+weather_df |> 
+  filter(prcp > 10, prcp < 1000) |> 
+  ggplot(aes(x = prcp, fill = name)) +
+  geom_density(alpha = .3)
+```
+
+![](vis_1_files/figure-gfm/unnamed-chunk-23-1.png)<!-- -->
+
+## Saving and embedding plots
+
+``` r
+ggp_weather =
+  weather_df |> 
+  ggplot(aes(x = date, y = tmax, color = name)) +
+  geom_point()
+
+ggsave("ggp_weather.pdf", ggp_weather, width = 8, height = 6)
+```
+
+    ## Warning: Removed 17 rows containing missing values or values outside the scale range
+    ## (`geom_point()`).
