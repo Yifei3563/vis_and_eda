@@ -13,32 +13,6 @@ Import the weather data
 
 ```{r}
 weather_df = 
-  read_csv("nynoaadat.csv")
-
-
-weather_df = 
-  read_csv("nynoaadat.csv") |> 
-  filter(
-    id %in% c("USW00094728", "USW00022534", "USS0023B17S"), 
-    date >= "2021-01-01", 
-    date <= "2022-12-31"
-  ) |> 
-  mutate(
-    name = case_when(
-      id == "USW00094728" ~ "CentralPark_NY",
-      id == "USW00022534" ~ "Molokai_HI",
-      id == "USS0023B17S" ~ "Waterhole_WA"
-    ),
-    tmin = tmin / 10,
-    tmax = tmax / 10
-  ) |> 
-  select(name, id, everything())
-
-```
-
-
-```{r}
-weather_df = 
   read_csv("weather_df.csv") |> 
   filter(
     id %in% c("USW00094728", "USW00022534", "USS0023B17S"), 

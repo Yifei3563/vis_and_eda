@@ -22,51 +22,6 @@ Import the weather data
 
 ``` r
 weather_df = 
-  read_csv("nynoaadat.csv")
-```
-
-    ## Rows: 2595176 Columns: 7
-    ## ── Column specification ────────────────────────────────────────────────────────
-    ## Delimiter: ","
-    ## chr  (1): id
-    ## dbl  (5): prcp, snow, snwd, tmax, tmin
-    ## date (1): date
-    ## 
-    ## ℹ Use `spec()` to retrieve the full column specification for this data.
-    ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-
-``` r
-weather_df = 
-  read_csv("nynoaadat.csv") |> 
-  filter(
-    id %in% c("USW00094728", "USW00022534", "USS0023B17S"), 
-    date >= "2021-01-01", 
-    date <= "2022-12-31"
-  ) |> 
-  mutate(
-    name = case_when(
-      id == "USW00094728" ~ "CentralPark_NY",
-      id == "USW00022534" ~ "Molokai_HI",
-      id == "USS0023B17S" ~ "Waterhole_WA"
-    ),
-    tmin = tmin / 10,
-    tmax = tmax / 10
-  ) |> 
-  select(name, id, everything())
-```
-
-    ## Rows: 2595176 Columns: 7
-    ## ── Column specification ────────────────────────────────────────────────────────
-    ## Delimiter: ","
-    ## chr  (1): id
-    ## dbl  (5): prcp, snow, snwd, tmax, tmin
-    ## date (1): date
-    ## 
-    ## ℹ Use `spec()` to retrieve the full column specification for this data.
-    ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-
-``` r
-weather_df = 
   read_csv("weather_df.csv") |> 
   filter(
     id %in% c("USW00094728", "USW00022534", "USS0023B17S"), 
@@ -105,7 +60,7 @@ ggplot(weather_df, aes(x = tmin, y = tmax)) +
     ## Warning: Removed 17 rows containing missing values or values outside the scale range
     ## (`geom_point()`).
 
-![](vis_1_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
+![](vis_1_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
 
 ``` r
 weather_df |> 
@@ -116,7 +71,7 @@ weather_df |>
     ## Warning: Removed 17 rows containing missing values or values outside the scale range
     ## (`geom_point()`).
 
-![](vis_1_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
+![](vis_1_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
 
 ``` r
 ggp_weather_scatterplot = 
@@ -174,7 +129,7 @@ weather_df |>
     ## Warning: Removed 17 rows containing missing values or values outside the scale range
     ## (`geom_point()`).
 
-![](vis_1_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
+![](vis_1_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
 
 ``` r
 ### adding alpha is to make the plot more transparent
@@ -199,7 +154,7 @@ weather_df |>
     ## Warning: Removed 17 rows containing missing values or values outside the scale range
     ## (`geom_point()`).
 
-![](vis_1_files/figure-gfm/unnamed-chunk-9-1.png)<!-- -->
+![](vis_1_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
 
 ``` r
 ### Only one smooth curve
@@ -223,7 +178,7 @@ weather_df |>
     ## Warning: Removed 17 rows containing missing values or values outside the scale range
     ## (`geom_point()`).
 
-![](vis_1_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
+![](vis_1_files/figure-gfm/unnamed-chunk-9-1.png)<!-- -->
 
 ``` r
 ### . means everything
@@ -270,7 +225,7 @@ weather_df |>
     ## Warning: Removed 19 rows containing missing values or values outside the scale range
     ## (`geom_point()`).
 
-![](vis_1_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
+![](vis_1_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
 
 ## Learning Assessment
 
@@ -288,4 +243,4 @@ weather_df |>
 
     ## `geom_smooth()` using formula = 'y ~ x'
 
-![](vis_1_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
+![](vis_1_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
