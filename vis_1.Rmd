@@ -78,5 +78,80 @@ ggp_weather_scatterplot =
   geom_point()
 ```
 
+Check why some rows are missing.
+
+```{r}
+weather_df |> 
+  filter(is.na(tmax))
+##is this missing
+```
+
+
+
+## Fancier scatterplots!
+
+```{r}
+weather_df |> 
+  ggplot(aes(x = tmin, y = tmax, colour = name)) +
+  geom_point(alpha = .3, size = .8) + 
+  geom_smooth(se = FALSE)
+
+### adding alpha is to make the plot more transparent
+### size makes the points look smaller
+### three smooth curves
+```
+
+
+Where you define aesthetics can matter
+
+```{r}
+weather_df |> 
+  ggplot(aes(x = tmin, y = tmax)) +
+  geom_point(aes(color = name), alpha = .3, size = .8) + 
+  geom_smooth(se = FALSE)
+
+### Only one smooth curve
+```
+
+
+Use faceting real quick
+
+```{r}
+weather_df |> 
+  ggplot(aes(x = tmin, y = tmax, colour = name)) +
+  geom_point(alpha = .3) +
+  geom_smooth(se = FALSE) +
+  facet_grid(. ~ name)
+
+### . means everything
+### facet_grid(name ~ .) reverse the graph
+```
+
+
+Let's make a somewhat more interesting scatterplot
+
+```{r}
+weather_df |> 
+  ggplot(aes(x = date, y = tmax, color = name, size = prcp)) +
+  geom_point(alpha = .3) +
+  geom_smooth(se = FALSE) +
+  facet_grid(. ~ name)
+```
+
+
+## Learning Assessment
+
+```{r}
+weather_df |> 
+  filter(name == "CentralPark_NY") |> 
+  mutate(
+    tmax_fahr = tmax*(9/5) +32 ,
+    tmin_fahr = tmin*(9/5) +32
+  ) |> 
+  ggplot(aes(x = tmin_fahr, y = tmax_fahr)) +
+    geom_point() +
+    geom_smooth(method = "lm", se = FALSE)
+```
+
 
 
